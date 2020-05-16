@@ -7,7 +7,6 @@ const ENEMY_HEIGHT  = 60
 
 const __ = {
   speed: Symbol('speed'),
-  range: Symbol('range')
 }
 
 let databus = new DataBus()
@@ -28,7 +27,6 @@ export default class Enemy extends Animation {
     this.y = -this.height
 
     this[__.speed] = speed
-    this[__.range] = range
 
     this.visible = true
   }
@@ -49,9 +47,10 @@ export default class Enemy extends Animation {
 
   update() {
     this.y += this[__.speed]
-
+    /*
     // 对象回收
     if ( this.y > window.innerHeight + this.height )
       databus.removeEnemey(this)
+    */
   }
 }

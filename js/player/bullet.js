@@ -11,11 +11,25 @@ const __ = {
 }
 
 let databus = new DataBus()
+// let pool = []
 
 export default class Bullet extends Sprite {
   constructor() {
     super(BULLET_IMG_SRC, BULLET_WIDTH, BULLET_HEIGHT)
+    this.type = Bullet
   }
+  /*
+  static alloc() {
+    let type = Bullet
+    let obj = pool.length? pool.shift(): new type()
+    databus.items.push(obj)
+    return obj
+  }
+
+  free(bullet) {
+    return pool.push(this)
+  }
+  */
 
   init(x, y, speedx, speedy) {
     this.x = x
@@ -31,10 +45,12 @@ export default class Bullet extends Sprite {
     this.y -= this.speedy
     this.x -= this.speedx
   
+    /*
     // 超出屏幕外回收自身
     // this.x < -this.width || this.x > canvas.width + this.width 
     if (this.y < -this.height ) {
       databus.removeBullets(this)
     }
+    */
   }
 }

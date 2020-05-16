@@ -132,6 +132,7 @@ export default class Player extends Sprite {
     
     let dx = [0, this.width, -this.width]
     for (let i = 0; i < 3; i++) {
+      // let bullet = Bullet.alloc()
       let bullet = databus.pool.getItemByClass('bullet', Bullet)
       
       bullet.init(
@@ -142,15 +143,21 @@ export default class Player extends Sprite {
       )
       
       databus.bullets.push(bullet)
-      if(!(this.skillBitMap & (1 << skills.grapeshot)))
+      if(!this.hasSkill(skills.grapeshot))
         break
     }
-    // console.log(databus.bullets.length)
   }
-  showSkills() {
-    for (var skill in this.skillBitMap) {
-      skill_dict[id] = "hello world"
-    }
-    return skill_dict
+  
+  hasSkill(id) {
+    return this.skillBitMap & (1 << id)
+  }
+
+  hasDebuff(id) {
+    return this.debuff & (1 << id)
+  }
+
+  equip(item) {
+    this.skillBitMap |= 1 << item.getSkill()
+    this.debuff |= 1 << item.getDebuff()
   }
 }

@@ -73,4 +73,10 @@ export default class Sprite {
               && spY >= this.y
               && spY <= this.y + this.height  )
   }
+
+  recoverable() {
+    return this.visible == false ||
+           this.y > window.innerHeight + this.height || this.y < -this.height ||
+           this.x > window.innerWidth + this.width || this.x < -this.width 
+  }
 }

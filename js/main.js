@@ -54,7 +54,7 @@ export default class Main {
    */
   enemyGenerate() {
     let maxFrame
-    if (this.player.debuff & (1 << debuff.speedup))
+    if (this.player.hasDebuff(debuff.moreEnemy))
       maxFrame = 30
     else
       maxFrame = 60
@@ -66,6 +66,7 @@ export default class Main {
   }
 
   itemGenerate() {
+    // let item = Item.alloc()
     let item = databus.pool.getItemByClass('item', Item)
     item.init(window.innerWidth / 2, window.innerHeight / 5)
     databus.items.push(item)
@@ -100,14 +101,15 @@ export default class Main {
         break
       }
     }
-    for ( let i = 0, il = databus.items.length; i < il;i++ ) {
+    for ( let i = 0, il = databus.items.length, choosed = false; i < il;i++ ) {
       let item = databus.items[i]
 
-      if ( this.player.isCollideWith(item) ) {
-        this.player.skillBitMap |= 1 << item.skillID
-        this.player.debuff |= 1 << item.debuffID
+      if (choosed) {
         item.visible = false
-        databus.removeItems(item)
+      } else if ( this.player.isCollideWith(item) ) {
+        this.player.equip(item)
+        item.visible = false
+        // databus.removeItems(item)
         this.pause = false
         break
       }
@@ -196,6 +198,10 @@ export default class Main {
       this.targetScore += 50
       this.itemGenerate()
     }
+
+    databus.recycle(databus.bullets, 'bullet')
+    databus.recycle(databus.enemys, 'enemy')
+    databus.recycle(databus.items, 'item')
   }
 
   // 实现游戏帧循环

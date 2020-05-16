@@ -3,5 +3,5 @@ const skills = {
 }
 
 const debuff = {
-    speedup: 0,
+    moreEnemy: 0,
 }

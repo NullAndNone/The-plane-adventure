@@ -13,7 +13,6 @@ export default class DataBus {
     instance = this
 
     this.pool = new Pool()
-
     this.reset()
   }
 
@@ -25,6 +24,7 @@ export default class DataBus {
     this.items      = []
     this.animations = []
     this.gameOver   = false
+    this.activePool = new Pool()
   }
 
   /**
@@ -61,5 +61,33 @@ export default class DataBus {
     item.visible = false
 
     this.pool.recover('item', item)
+  }
+  /*
+  createObject(type) {
+    let obj = this.pool.getItemByClass(type, type)
+    this.activePool.recover(type, obj)
+  }
+  */
+
+  recycle(array, poolName) {
+    let i = 0
+    while (i < array.length) {
+      let start = 0
+      let count = 0
+      i = 0
+      for (let obj of array) {
+        if (obj.recoverable()) {
+          if (count == 0)
+              start = i
+          count++
+          this.pool.recover(poolName, obj)
+        } else if (count > 0){
+          break
+        }
+        i++
+      }
+      if (count > 0)
+        array.splice(start, count)
+    }
   }
 }
